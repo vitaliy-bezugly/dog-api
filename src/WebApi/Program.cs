@@ -1,4 +1,5 @@
 using Application;
+using AspNetCoreRateLimit;
 using Infrastructure;
 using Infrastructure.Persistence;
 using WebApi;
@@ -7,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
-builder.Services.AddWebApiServices();
+builder.Services.AddWebApiServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -26,6 +27,8 @@ else
 {
     app.UseHsts();
 }
+
+app.UseIpRateLimiting();
 
 app.UseHttpsRedirection();
 
