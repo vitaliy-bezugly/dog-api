@@ -10,16 +10,14 @@ public record GetDogsQuery : IRequest<PaginatedList<Dog>>
     
     public int PageNumber { get; init; }
     public int PageSize { get; init; }
-
-    public GetDogsQuery()
-    {
-        PageNumber = 1;
-        PageSize = MaxPageSize;
-    }
-
-    public GetDogsQuery(int pageNumber, int pageSize)
+    public string Attribute { get; init; }
+    public string Order { get; init; }
+    
+    public GetDogsQuery(int pageNumber, int pageSize, string attribute, string order)
     {
         PageNumber = pageNumber;
+        Attribute = attribute;
+        Order = order;
         PageSize = pageSize > MaxPageSize ? MaxPageSize : pageSize;
     }
 }

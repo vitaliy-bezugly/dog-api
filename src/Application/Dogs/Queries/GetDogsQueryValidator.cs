@@ -17,5 +17,13 @@ public class GetDogsQueryValidator : AbstractValidator<GetDogsQuery>
         RuleFor(x => x.PageSize)
             .LessThanOrEqualTo(50)
             .WithMessage("PageSize must be less than or equal to 50.");
+        
+        RuleFor(x => x.Attribute)
+            .Must(x => string.IsNullOrEmpty(x) || x == "name" || x == "color" || x == "tailLength" || x == "weight")
+            .WithMessage("Attribute must be null or one of the following: name, color, tailLength, weight.");
+        
+        RuleFor(x => x.Order)
+            .Must(x => string.IsNullOrEmpty(x) || x == "asc" || x == "desc")
+            .WithMessage("Order must be null or one of the following: asc, desc.");
     }
 }

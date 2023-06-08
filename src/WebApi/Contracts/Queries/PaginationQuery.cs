@@ -5,8 +5,8 @@ namespace WebApi.Contracts.Queries;
 
 public class PaginationQuery
 {
-    [FromQuery(Name = "pageNumber")] 
+    [FromQuery(Name = "pageNumber"), Range(1, int.MaxValue)] 
     public int PageNumber { get; set; } = 1;
-    [FromQuery(Name = "pageSize")] 
+    [FromQuery(Name = "pageSize"), Range(1, 50)] 
     public int PageSize { get; set; } = 50;
 }

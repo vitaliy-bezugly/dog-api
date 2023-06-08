@@ -16,9 +16,9 @@ public class DogsController : ControllerBase
     }
 
     [HttpGet, Route(ApiRoutes.Dogs.GetAll)]
-    public async Task<IActionResult> GetAll([FromQuery] PaginationQuery paginationQuery)
+    public async Task<IActionResult> GetAll([FromQuery] PaginationQuery paginationQuery, [FromQuery] SortingQuery sortingQuery)
     {
-        var query = new GetDogsQuery(paginationQuery.PageNumber, paginationQuery.PageSize);
+        var query = new GetDogsQuery(paginationQuery.PageNumber, paginationQuery.PageSize, sortingQuery.Attribute, sortingQuery.Order);
         var result = await _mediator.Send(query);
         return Ok(result);
     }
