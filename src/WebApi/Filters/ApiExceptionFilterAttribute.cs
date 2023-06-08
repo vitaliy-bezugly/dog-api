@@ -1,3 +1,4 @@
+using Application.Common.Exceptions;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
@@ -14,14 +15,14 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         // Register known exception types and handlers.
         _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
         {
-            { typeof(ValidationException), HandleValidationException }
+            { typeof(ValidationException), HandleValidationException },
+            { typeof(DogAlreadyExistsException),HandleDogAlreadyExistsException}
         };
     }
     
     public override void OnException(ExceptionContext context)
     {
         HandleException(context);
-
         base.OnException(context);
     }
 
@@ -55,17 +56,22 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         context.ExceptionHandled = true;
     }
     
-    private Dictionary<string, string[]> ParseValidationFailures(IEnumerable<ValidationFailure> failures)
+    private void HandleDogAlreadyExistsException(ExceptionContext context)
     {
-        var errors = new Dictionary<string, string[]>();
-        foreach (var failure in failures)
+        var exception = (DogAlreadyExistsException)context.Exception;
+        var details = new ProblemDetails()
         {
-            errors.Add(failure.PropertyName, new[] { failure.ErrorMessage });
-        }
+            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+            Title = "Inappropriate dog name.",
+            Detail = exception.Message
+        };
 
-        return errors;
+        context.Result = new BadRequestObjectResult(details);
+
+        context.Result = new BadRequestObjectResult(details);
+        context.ExceptionHandled = true;
     }
-    
+
     private void HandleInvalidModelStateException(ExceptionContext context)
     {
         var details = new ValidationProblemDetails(context.ModelState)
@@ -76,5 +82,16 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         context.Result = new BadRequestObjectResult(details);
 
         context.ExceptionHandled = true;
+    }
+    
+    private Dictionary<string, string[]> ParseValidationFailures(IEnumerable<ValidationFailure> failures)
+    {
+        var errors = new Dictionary<string, string[]>();
+        foreach (var failure in failures)
+        {
+            errors.Add(failure.PropertyName, new[] { failure.ErrorMessage });
+        }
+
+        return errors;
     }
 }
