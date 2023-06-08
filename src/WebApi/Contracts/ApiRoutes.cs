@@ -6,4 +6,10 @@ public static class ApiRoutes
     {
         public const string HealthCheck = "ping";
     }
+    public static class Dogs
+    {
+        private const string Base = "dogs";
+        
+        public const string GetAll = Base;
+    }
 }
