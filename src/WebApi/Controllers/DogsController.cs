@@ -1,5 +1,6 @@
 using Application.Dogs.Commands;
 using Application.Dogs.Queries;
+using Application.Dogs.Queries.GetDogQuery;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Contracts;
@@ -16,6 +17,14 @@ public class DogsController : ControllerBase
     public DogsController(IMediator mediator)
     {
         _mediator = mediator;
+    }
+    
+    [HttpGet, Route(ApiRoutes.Dogs.GetByName)]
+    public async Task<IActionResult> GetByName(string name)
+    {
+        var query = new GetDogQuery(name);
+        var result = await _mediator.Send(query);
+        return Ok(result);
     }
 
     [HttpGet, Route(ApiRoutes.Dogs.GetAll)]
@@ -34,7 +43,8 @@ public class DogsController : ControllerBase
         
         var response = new CreatedDogResponse { Name = request.Name, Color = request.Color, TailLength = request.TailLength, Weight = request.Weight};
         var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
-        var locationUrl = $"{baseUrl}/{ApiRoutes.Dogs.GetById.Replace("{name}", response.Name)}";
+        var locationUrl = $"{baseUrl}/{ApiRoutes.Dogs.GetByName.Replace("{name}", response.Name)}";
+        
         return Created(locationUrl, response);
     }
 }

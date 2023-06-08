@@ -10,6 +10,7 @@ public static class ApiRoutes
     {
         private const string Base = "dogs";
         
+        public const string GetByName = Base + "/{name}";
         public const string GetAll = Base;
         public const string Create = Base;
     }

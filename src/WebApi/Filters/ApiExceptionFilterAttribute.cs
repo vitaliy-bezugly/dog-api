@@ -16,7 +16,8 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
         {
             { typeof(ValidationException), HandleValidationException },
-            { typeof(DogAlreadyExistsException),HandleDogAlreadyExistsException}
+            { typeof(DogAlreadyExistsException),HandleDogAlreadyExistsException },
+            { typeof(DogNotFoundException), HandleDogNotFoundException}
         };
     }
     
@@ -28,7 +29,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
     private void HandleException(ExceptionContext context)
     {
-        Type type = context.Exception.GetType();
+        var type = context.Exception.GetType();
         if (_exceptionHandlers.ContainsKey(type))
         {
             _exceptionHandlers[type].Invoke(context);
@@ -53,6 +54,22 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         };
 
         context.Result = new BadRequestObjectResult(details);
+        context.ExceptionHandled = true;
+    }
+
+    private void HandleDogNotFoundException(ExceptionContext context)
+    {
+        var exception = (DogNotFoundException)context.Exception;
+
+        var details = new ProblemDetails()
+        {
+            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+            Title = "The specified resource was not found.",
+            Detail = exception.Message
+        };
+
+        context.Result = new NotFoundObjectResult(details);
+
         context.ExceptionHandled = true;
     }
     
