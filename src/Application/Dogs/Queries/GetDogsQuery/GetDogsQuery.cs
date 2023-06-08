@@ -2,7 +2,7 @@ using Application.Common.Models;
 using Domain.Entities;
 using MediatR;
 
-namespace Application.Dogs.Queries;
+namespace Application.Dogs.Queries.GetDogsQuery;
 
 public record GetDogsQuery : IRequest<PaginatedList<Dog>>
 {

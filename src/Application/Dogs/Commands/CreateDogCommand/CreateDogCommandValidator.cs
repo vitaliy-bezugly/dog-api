@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Application.Dogs.Commands;
+namespace Application.Dogs.Commands.CreateDogCommand;
 
 public class CreateDogCommandValidator : AbstractValidator<CreateDogCommand>
 {

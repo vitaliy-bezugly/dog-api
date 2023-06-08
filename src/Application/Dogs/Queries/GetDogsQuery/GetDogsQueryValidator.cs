@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Application.Dogs.Queries;
+namespace Application.Dogs.Queries.GetDogsQuery;
 
 public class GetDogsQueryValidator : AbstractValidator<GetDogsQuery>
 {

@@ -2,7 +2,6 @@ using Application;
 using Infrastructure;
 using Infrastructure.Persistence;
 using WebApi;
-using WebApi.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +28,6 @@ else
 }
 
 app.UseHttpsRedirection();
-app.UseHealthChecks("/" + ApiRoutes.Ping.HealthCheck);
 
 app.UseSwagger();
 app.UseSwaggerUI();

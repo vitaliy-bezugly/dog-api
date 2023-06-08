@@ -16,8 +16,6 @@ public static class ServiceConfigurator
         {
             c.SwaggerDoc("v1", new() { Title = "WebApi", Version = "v1" });
         });
-
-        services.AddHealthChecks();
         
         return services;
     }

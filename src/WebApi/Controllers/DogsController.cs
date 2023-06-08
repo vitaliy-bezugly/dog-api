@@ -1,6 +1,8 @@
 using Application.Dogs.Commands;
+using Application.Dogs.Commands.CreateDogCommand;
 using Application.Dogs.Queries;
-using Application.Dogs.Queries.GetDogQuery;
+using Application.Dogs.Queries.GetDogByNameQuery;
+using Application.Dogs.Queries.GetDogsQuery;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Contracts;
@@ -22,7 +24,7 @@ public class DogsController : ControllerBase
     [HttpGet, Route(ApiRoutes.Dogs.GetByName)]
     public async Task<IActionResult> GetByName(string name)
     {
-        var query = new GetDogQuery(name);
+        var query = new GetDogByNameQuery(name);
         var result = await _mediator.Send(query);
         return Ok(result);
     }

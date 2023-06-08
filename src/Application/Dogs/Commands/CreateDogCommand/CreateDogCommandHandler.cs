@@ -5,7 +5,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Application.Dogs.Commands;
+namespace Application.Dogs.Commands.CreateDogCommand;
 
 public class CreateDogCommandHandler : IRequestHandler<CreateDogCommand>
 {
@@ -18,7 +18,7 @@ public class CreateDogCommandHandler : IRequestHandler<CreateDogCommand>
         _logger = logger;
     }
 
-    public async Task Handle(CreateDogCommand request, CancellationToken cancellationToken)
+    public async Task Handle(Commands.CreateDogCommand.CreateDogCommand request, CancellationToken cancellationToken)
     {
         var exists = await _context.Dogs.FirstOrDefaultAsync(x => x.Name == request.Name, cancellationToken);
 
