@@ -12,6 +12,6 @@ public static class ApiRoutes
         
         public const string GetByName = Base + "/{name}";
         public const string GetAll = Base;
-        public const string Create = Base;
+        public const string Create = "dog";
     }
 }
