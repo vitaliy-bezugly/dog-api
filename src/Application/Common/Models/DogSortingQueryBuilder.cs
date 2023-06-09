@@ -13,8 +13,8 @@ public class DogSortingQueryBuilder
             { ("name", false), BuildQueryAsNameDescendingOrdering },
             { ("color", true), BuildQueryAsColorAscendingOrdering },
             { ("color", false), BuildQueryAsColorDescendingOrdering },
-            { ("tailLength", true), BuildQueryAsTailLengthAscendingOrdering },
-            { ("tailLength", false), BuildQueryAsTailLengthDescendingOrdering },
+            { ("tail_length", true), BuildQueryAsTailLengthAscendingOrdering },
+            { ("tail_length", false), BuildQueryAsTailLengthDescendingOrdering },
             { ("weight", true), BuildQueryAsWeightAscendingOrdering },
             { ("weight", false), BuildQueryAsWeightDescendingOrdering }
         };
