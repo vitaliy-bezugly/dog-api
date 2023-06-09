@@ -30,10 +30,10 @@ public class PingControllerTests : TestFixtureBase
     public async Task SendToManyRequests_After10RequestShouldGetAlways429StatusCode()
     {
         // Arrange
-        int requests = 15;
+        int requestsCount = 15;
         
         // Act
-        var tasks = Enumerable.Range(0, requests).Select(x =>
+        var tasks = Enumerable.Range(0, requestsCount).Select(x =>
         {
             var request = new HttpRequestMessage(HttpMethod.Get, "/" + ApiRoutes.Ping.HealthCheck);
             var task = Client.SendAsync(request);
