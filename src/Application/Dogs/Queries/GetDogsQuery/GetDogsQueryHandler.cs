@@ -14,7 +14,7 @@ public class GetDogsQueryHandler : IRequestHandler<GetDogsQuery, PaginatedList<D
         _context = context;
     }
 
-    public async Task<PaginatedList<Dog>> Handle(Queries.GetDogsQuery.GetDogsQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<Dog>> Handle(GetDogsQuery request, CancellationToken cancellationToken)
     {
         IQueryable<Dog> source = _context.Dogs.AsQueryable();
         IQueryable<Dog> sortedQuery = DogSortingQueryBuilder

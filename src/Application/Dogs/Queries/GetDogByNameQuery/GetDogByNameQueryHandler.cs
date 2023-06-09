@@ -15,7 +15,7 @@ public class GetDogByNameQueryHandler : IRequestHandler<GetDogByNameQuery, Dog>
         _context = context;
     }
 
-    public async Task<Dog> Handle(Queries.GetDogByNameQuery.GetDogByNameQuery request, CancellationToken cancellationToken)
+    public async Task<Dog> Handle(GetDogByNameQuery request, CancellationToken cancellationToken)
     {
         Dog? dog = await _context.Dogs.FirstOrDefaultAsync(x => x.Name == request.Name, cancellationToken);
         if (dog is null)
