@@ -1,46 +1,39 @@
 using Application.Common.Exceptions;
-using Application.Common.Interfaces;
 using Application.Dogs.Queries.GetDogByNameQuery;
 using Domain.Entities;
 using FluentAssertions;
-using Moq;
-using Moq.EntityFrameworkCore;
 
 namespace Application.UnitTests;
 
-public class GetDogByNameQueryUnitTests
+public class GetDogByNameQueryUnitTests : BaseTestFixture
 {
     private readonly GetDogByNameQueryHandler _sut;
-    private readonly Mock<IApplicationDbContext> _contextMock = new();
-    public GetDogByNameQueryUnitTests()
+    public GetDogByNameQueryUnitTests() : base()
     {
-        _sut = new GetDogByNameQueryHandler(_contextMock.Object);
+        _sut = new GetDogByNameQueryHandler(ContextMock.Object);
     }
 
     [Fact]
     public async Task Handle_SendGetQueryWhenDogIsExists_ShouldReturnDog()
     {
         // Arrange
-        var dog = new Dog("Fido", "white & black", 1, 1);
-        var query = new GetDogByNameQuery(dog.Name);
-        _contextMock.Setup(x => x.Dogs)
-            .ReturnsDbSet(new []{ dog });
+        var query = new GetDogByNameQuery("Fido");
+        SetupDogCollectionMock();
 
         // Act
         Dog actual = await _sut.Handle(query, CancellationToken.None);
         
         // Assert
         actual.Should().NotBeNull();
-        actual.Should().BeEquivalentTo(dog);
+        actual.Should().BeEquivalentTo(GetDogByName(query.Name));
     }
     
     [Fact]
     public async Task Handle_SendQueryWhenDogDoesNotExist_ShouldThrowDogNotFoundException()
     {
         // Arrange
-        var query = new GetDogByNameQuery("Fido");
-        _contextMock.Setup(x => x.Dogs)
-            .ReturnsDbSet(new Dog[0]);
+        var query = new GetDogByNameQuery("Not existed dog");
+        SetupDogCollectionMock();
 
         // Act
         Func<Task> act = async () => await _sut.Handle(query, CancellationToken.None);

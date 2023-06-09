@@ -25,4 +25,9 @@ public abstract class BaseTestFixture
         var dogMock = Dogs.BuildMock().BuildMockDbSet();
         ContextMock.Setup(x => x.Dogs).Returns(dogMock.Object);
     }
+    
+    protected Dog GetDogByName(string name)
+    {
+        return Dogs.First(x => x.Name == name);
+    }
 }
