@@ -1,0 +1,31 @@
+version: '3.9'
+
+networks:
+  restapi:
+    name: restapi
+
+services:
+  dog-service:
+    build: /src
+    container_name: dog-service
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - docker-db
+    networks: 
+      - restapi
+    environment: 
+      - DB_CONN=Data Source=docker-db;User=SA;Password=SomeStr0ngPassw0rd;TrustServerCertificate=true
+      - ASPNETCORE_ENVIRONMENT=Docker
+  docker-db:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    container_name: docker-db
+    environment: 
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=SomeStr0ngPassw0rd
+      - MSSQL_TCP_PORT=1433
+    ports: 
+      - "1433:1433"
+    networks: 
+      - restapi

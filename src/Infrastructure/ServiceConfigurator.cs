@@ -10,10 +10,14 @@ public static class ServiceConfigurator
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        string? connectionString = Environment.GetEnvironmentVariable("DB_CONN");
         if (string.IsNullOrEmpty(connectionString))
         {
-            throw new InvalidOperationException("Connection string is required to configure the database.");
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new InvalidOperationException("Connection string is required to configure the database.");
+            }
         }
         
         services.AddDbContext<ApplicationDbContext>(options =>
