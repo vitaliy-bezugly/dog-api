@@ -25,9 +25,8 @@ public class ApplicationDbContextInitializer
             }
             else
             {
-                string errorMessage = "Database provider not supported. Supported providers: SqlServer";
+                string errorMessage = "Can not execute migration. Database provider not supported. Supported providers: SqlServer";
                 _logger.LogError(errorMessage);
-                throw new InvalidOperationException(errorMessage);
             }
         }
         catch (Exception ex)

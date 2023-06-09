@@ -5,12 +5,12 @@ using Moq;
 
 namespace Application.UnitTests;
 
-public abstract class BaseTestFixture
+public abstract class TestFixtureBase
 {
     protected readonly Dog[] Dogs;
     protected readonly Mock<IApplicationDbContext> ContextMock = new();
 
-    protected BaseTestFixture()
+    protected TestFixtureBase()
     {
         Dogs = new[]
         {

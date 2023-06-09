@@ -6,7 +6,7 @@ using Moq;
 
 namespace Application.UnitTests;
 
-public class CreateDogCommandUnitTests : BaseTestFixture
+public class CreateDogCommandUnitTests : TestFixtureBase
 {
     private readonly CreateDogCommandHandler _sut;
     

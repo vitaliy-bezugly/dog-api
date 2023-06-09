@@ -5,7 +5,7 @@ using FluentAssertions;
 
 namespace Application.UnitTests;
 
-public class GetDogByNameQueryUnitTests : BaseTestFixture
+public class GetDogByNameQueryUnitTests : TestFixtureBase
 {
     private readonly GetDogByNameQueryHandler _sut;
     public GetDogByNameQueryUnitTests() : base()
